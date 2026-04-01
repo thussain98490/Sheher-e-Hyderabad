@@ -130,7 +130,7 @@ export default function PlacesPage() {
                         <span className="text-sm font-medium">{place.entry_fee}</span>
                       )}
                       {place.rating && (
-                        <span className="text-sm font-medium">Rating: {place.rating}</span>
+                        <span className="text-sm font-medium">⭐ {place.rating}</span>
                       )}
                     </div>
                   </CardContent>

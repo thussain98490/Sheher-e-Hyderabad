@@ -27,17 +27,12 @@ export default function SiteFooter() {
               <MapPin className="h-6 w-6 text-primary" />
               <span className="text-lg font-bold gradient-text">Sheher-e-Hyderabad</span>
             </div>
-            <p className="text-sm text-muted-foreground">
-              Your smart companion for exploring Hyderabad. Discover food, places, events, and local culture with confidence.
+            <p className="text-sm font-medium text-foreground">
+              Smart City Guide & Travel Planner
             </p>
-            <div className="space-y-2 text-sm text-muted-foreground">
-              <a href="mailto:info@hyderabadguide.com" className="transition-colors hover:text-primary">
-                info@hyderabadguide.com
-              </a>
-              <a href="tel:+914012345678" className="block transition-colors hover:text-primary">
-                +91 40 1234 5678
-              </a>
-            </div>
+            <p className="text-sm text-muted-foreground">
+              Discover Hyderabad like never before — explore iconic landmarks, taste authentic cuisine, and experience the city’s vibrant culture.
+            </p>
           </div>
 
           <div>
@@ -77,11 +72,11 @@ export default function SiteFooter() {
             <ul className="space-y-3">
               <li className="flex items-center space-x-2 text-sm text-muted-foreground">
                 <Mail className="h-4 w-4 text-primary" />
-                <span>info@hyderabadguide.com</span>
+                <span>info_shehyd@gmail.com</span>
               </li>
               <li className="flex items-center space-x-2 text-sm text-muted-foreground">
                 <Phone className="h-4 w-4 text-primary" />
-                <span>+91 40 1234 5678</span>
+                <span>+91 9849217820</span>
               </li>
             </ul>
           </div>

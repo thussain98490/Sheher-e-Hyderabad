@@ -89,7 +89,7 @@ export default function MarketingHomePage() {
               Your Smart City Guide & Travel Planner
             </p>
             <p className="mb-10 text-3xl font-semibold text-primary drop-shadow-lg animate-pulse-slow md:text-4xl">
-              Khaao, Ghoomo, Phiro, Mauj Karo!
+              Discover the City Like Never Before!
             </p>
             <div className="flex flex-col justify-center gap-4 animate-slide-up sm:flex-row">
               <Button size="lg" className="px-8 py-6 text-lg shadow-2xl transition-transform hover:scale-105" asChild>
@@ -130,9 +130,9 @@ export default function MarketingHomePage() {
         <section className="bg-accent/10 py-16">
           <div className="container mx-auto px-4">
             <div className="mb-12 text-center">
-              <h2 className="mb-4 text-3xl font-bold md:text-4xl">Ganga-Jamuna Tehzeeb</h2>
+              <h2 className="mb-4 text-3xl font-bold md:text-4xl">Ganga-Jamuni Tehzeeb</h2>
               <p className="mx-auto max-w-3xl text-lg text-muted-foreground">
-                Experience the unique blend of Hindu and Muslim cultures that defines Hyderabad&apos;s rich heritage.
+                Experience the unique blend of Hindu and Muslim cultures that defines Hyderabad's rich heritage.
                 From the majestic Charminar to the aromatic biryani, discover a city where traditions harmoniously coexist.
               </p>
             </div>
@@ -166,7 +166,7 @@ export default function MarketingHomePage() {
           <div className="container mx-auto px-4">
             <div className="mb-12 text-center">
               <h2 className="mb-4 text-3xl font-bold md:text-4xl">Explore Hyderabad</h2>
-              <p className="text-lg text-muted-foreground">Discover the best of what the city has to offer</p>
+              <p className="text-lg text-muted-foreground">From iconic landmarks to hidden gems — plan, explore, and experience Hyderabad effortlessly.</p>
             </div>
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
               {categories.map((category) => {

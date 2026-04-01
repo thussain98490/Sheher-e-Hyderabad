@@ -49,7 +49,7 @@ export default function ContactPage() {
         <div className="mb-8">
           <h1 className="text-4xl font-bold mb-2">Contact Us</h1>
           <p className="text-lg text-muted-foreground">
-            Get in touch for trip questions, feedback, partnership ideas, or content corrections.
+            Have questions or suggestions? We'd love to hear from you.
           </p>
         </div>
 
@@ -97,7 +97,7 @@ export default function ContactPage() {
                   {loading ? 'Sending...' : 'Send Message'}
                 </Button>
                 <p className="text-sm text-muted-foreground">
-                  Your message is stored securely so the team can review and respond.
+                  Your message will be reviewed and we'll get back to you soon.
                 </p>
               </form>
             </CardContent>
@@ -110,8 +110,8 @@ export default function ContactPage() {
                   <Mail className="h-6 w-6 text-primary mt-1" />
                   <div>
                     <h3 className="font-semibold mb-1">Email</h3>
-                    <p className="text-muted-foreground">info@hyderabadguide.com</p>
-                    <p className="text-muted-foreground">support@hyderabadguide.com</p>
+                    <p className="text-muted-foreground">info_shehyd@gmail.com</p>
+                    <p className="text-muted-foreground">support_shehyd@gmail.com</p>
                   </div>
                 </div>
               </CardContent>
@@ -123,8 +123,7 @@ export default function ContactPage() {
                   <Phone className="h-6 w-6 text-primary mt-1" />
                   <div>
                     <h3 className="font-semibold mb-1">Phone</h3>
-                    <p className="text-muted-foreground">+91 40 1234 5678</p>
-                    <p className="text-muted-foreground">+91 40 8765 4321</p>
+                    <p className="text-muted-foreground">+91 9849217820</p>
                   </div>
                 </div>
               </CardContent>
@@ -135,11 +134,9 @@ export default function ContactPage() {
                 <div className="flex items-start space-x-4">
                   <MapPin className="h-6 w-6 text-primary mt-1" />
                   <div>
-                    <h3 className="font-semibold mb-1">Address</h3>
+                    <h3 className="font-semibold mb-1">Location</h3>
                     <p className="text-muted-foreground">
-                      Hyderabad Smart City Guide<br />
-                      HITEC City, Madhapur<br />
-                      Hyderabad, Telangana 500081<br />
+                      Hyderabad, Telangana <br />
                       India
                     </p>
                   </div>
