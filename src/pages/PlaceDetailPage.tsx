@@ -19,15 +19,11 @@ export default function PlaceDetailPage() {
   useEffect(() => {
     if (id) {
       getPlaceById(id)
-        .then((data) => {
-          setPlace(data);
-        })
-        .catch(() => {
-          setError('We could not load this place right now. Please try again shortly.');
-        })
-        .finally(() => {
-          setLoading(false);
-        });
+        .then(setPlace)
+        .catch(() =>
+          setError('We could not load this place right now. Please try again shortly.')
+        )
+        .finally(() => setLoading(false));
     }
   }, [id]);
 
@@ -37,7 +33,7 @@ export default function PlaceDetailPage() {
         <div className="container mx-auto px-4 py-8">
           <Skeleton className="h-8 w-32 mb-8 bg-muted" />
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <Skeleton className="aspect-video bg-muted" />
+            <Skeleton className="aspect-video bg-muted rounded-xl" />
             <div className="space-y-4">
               <Skeleton className="h-10 w-3/4 bg-muted" />
               <Skeleton className="h-6 w-1/2 bg-muted" />
@@ -66,7 +62,7 @@ export default function PlaceDetailPage() {
 
   return (
     <MainLayout>
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-10">
         <Button variant="ghost" asChild className="mb-8">
           <Link to="/places">
             <ArrowLeft className="mr-2 h-4 w-4" />
@@ -74,8 +70,9 @@ export default function PlaceDetailPage() {
           </Link>
         </Button>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div className="aspect-video bg-muted rounded-lg overflow-hidden">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+          {/* Image */}
+          <div className="aspect-video bg-muted rounded-xl overflow-hidden shadow-md">
             {place.image_url && (
               <img
                 src={place.image_url}
@@ -85,7 +82,8 @@ export default function PlaceDetailPage() {
             )}
           </div>
 
-          <div className="space-y-6">
+          {/* Content */}
+          <div className="space-y-6 max-w-xl">
             <div>
               <h1 className="text-4xl font-bold mb-2">{place.name}</h1>
               <p className="text-xl text-primary font-medium">{place.category}</p>
@@ -103,52 +101,47 @@ export default function PlaceDetailPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {place.timings && (
                 <Card>
-                  <CardContent className="p-6">
-                    <div className="flex items-start space-x-2">
-                      <Clock className="h-5 w-5 text-primary mt-1" />
-                      <div>
-                        <p className="text-sm text-muted-foreground mb-1">Timings</p>
-                        <p className="font-semibold">{place.timings}</p>
-                      </div>
+                  <CardContent className="p-6 flex items-start gap-2">
+                    <Clock className="h-5 w-5 text-primary mt-1" />
+                    <div>
+                      <p className="text-sm text-muted-foreground">Timings</p>
+                      <p className="font-semibold">{place.timings}</p>
                     </div>
                   </CardContent>
                 </Card>
               )}
+
               {place.entry_fee && (
                 <Card>
-                  <CardContent className="p-6">
-                    <div className="flex items-start space-x-2">
-                      <DollarSign className="h-5 w-5 text-primary mt-1" />
-                      <div>
-                        <p className="text-sm text-muted-foreground mb-1">Entry Fee</p>
-                        <p className="font-semibold">{place.entry_fee}</p>
-                      </div>
+                  <CardContent className="p-6 flex items-start gap-2">
+                    <DollarSign className="h-5 w-5 text-primary mt-1" />
+                    <div>
+                      <p className="text-sm text-muted-foreground">Entry Fee</p>
+                      <p className="font-semibold">{place.entry_fee}</p>
                     </div>
                   </CardContent>
                 </Card>
               )}
+
               {place.best_time && (
                 <Card>
-                  <CardContent className="p-6">
-                    <div className="flex items-start space-x-2">
-                      <Calendar className="h-5 w-5 text-primary mt-1" />
-                      <div>
-                        <p className="text-sm text-muted-foreground mb-1">Best Time</p>
-                        <p className="font-semibold">{place.best_time}</p>
-                      </div>
+                  <CardContent className="p-6 flex items-start gap-2">
+                    <Calendar className="h-5 w-5 text-primary mt-1" />
+                    <div>
+                      <p className="text-sm text-muted-foreground">Best Time</p>
+                      <p className="font-semibold">{place.best_time}</p>
                     </div>
                   </CardContent>
                 </Card>
               )}
+
               {place.rating && (
                 <Card>
-                  <CardContent className="p-6">
-                    <div className="flex items-start space-x-2">
-                      <Star className="h-5 w-5 text-primary mt-1 fill-primary" />
-                      <div>
-                        <p className="text-sm text-muted-foreground mb-1">Rating</p>
-                        <p className="font-semibold">{place.rating} / 5.0</p>
-                      </div>
+                  <CardContent className="p-6 flex items-start gap-2">
+                    <Star className="h-5 w-5 text-primary mt-1 fill-primary" />
+                    <div>
+                      <p className="text-sm text-muted-foreground">Rating</p>
+                      <p className="font-semibold">{place.rating} / 5.0</p>
                     </div>
                   </CardContent>
                 </Card>
@@ -157,13 +150,11 @@ export default function PlaceDetailPage() {
 
             {place.location && (
               <Card>
-                <CardContent className="p-6">
-                  <div className="flex items-start space-x-2">
-                    <MapPin className="h-5 w-5 text-primary mt-1" />
-                    <div>
-                      <h3 className="font-semibold mb-1">Location</h3>
-                      <p className="text-muted-foreground">{place.location}</p>
-                    </div>
+                <CardContent className="p-6 flex items-start gap-2">
+                  <MapPin className="h-5 w-5 text-primary mt-1" />
+                  <div>
+                    <h3 className="font-semibold mb-1">Location</h3>
+                    <p className="text-muted-foreground">{place.location}</p>
                   </div>
                 </CardContent>
               </Card>

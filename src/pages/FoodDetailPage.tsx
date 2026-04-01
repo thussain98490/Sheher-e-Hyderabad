@@ -18,15 +18,11 @@ export default function FoodDetailPage() {
   useEffect(() => {
     if (id) {
       getFoodItemById(id)
-        .then((data) => {
-          setItem(data);
-        })
-        .catch(() => {
-          setError('We could not load this food listing right now. Please try again shortly.');
-        })
-        .finally(() => {
-          setLoading(false);
-        });
+        .then(setItem)
+        .catch(() =>
+          setError('We could not load this food listing right now. Please try again shortly.')
+        )
+        .finally(() => setLoading(false));
     }
   }, [id]);
 
@@ -36,7 +32,7 @@ export default function FoodDetailPage() {
         <div className="container mx-auto px-4 py-8">
           <Skeleton className="h-8 w-32 mb-8 bg-muted" />
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <Skeleton className="aspect-video bg-muted" />
+            <Skeleton className="aspect-video bg-muted rounded-xl" />
             <div className="space-y-4">
               <Skeleton className="h-10 w-3/4 bg-muted" />
               <Skeleton className="h-6 w-1/2 bg-muted" />
@@ -65,7 +61,7 @@ export default function FoodDetailPage() {
 
   return (
     <MainLayout>
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-10">
         <Button variant="ghost" asChild className="mb-8">
           <Link to="/food">
             <ArrowLeft className="mr-2 h-4 w-4" />
@@ -73,8 +69,9 @@ export default function FoodDetailPage() {
           </Link>
         </Button>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div className="aspect-video bg-muted rounded-lg overflow-hidden">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+          {/* Image */}
+          <div className="aspect-video bg-muted rounded-xl overflow-hidden shadow-md">
             {item.image_url && (
               <img
                 src={item.image_url}
@@ -84,7 +81,8 @@ export default function FoodDetailPage() {
             )}
           </div>
 
-          <div className="space-y-6">
+          {/* Content */}
+          <div className="space-y-6 max-w-xl">
             <div>
               <h1 className="text-4xl font-bold mb-2">{item.name}</h1>
               <p className="text-xl text-primary font-medium">{item.category}</p>
@@ -103,11 +101,12 @@ export default function FoodDetailPage() {
               {item.price && (
                 <Card>
                   <CardContent className="p-6">
-                    <p className="text-sm text-muted-foreground mb-1">Price Range</p>
+                    <p className="text-sm text-muted-foreground mb-1">Price</p>
                     <p className="text-2xl font-bold text-primary">{item.price}</p>
                   </CardContent>
                 </Card>
               )}
+
               {item.rating && (
                 <Card>
                   <CardContent className="p-6">

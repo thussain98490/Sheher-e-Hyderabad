@@ -18,15 +18,11 @@ export default function ShoppingDetailPage() {
   useEffect(() => {
     if (id) {
       getShoppingById(id)
-        .then((data) => {
-          setItem(data);
-        })
-        .catch(() => {
-          setError('We could not load this shopping destination right now. Please try again shortly.');
-        })
-        .finally(() => {
-          setLoading(false);
-        });
+        .then(setItem)
+        .catch(() =>
+          setError('We could not load this shopping destination right now. Please try again shortly.')
+        )
+        .finally(() => setLoading(false));
     }
   }, [id]);
 
@@ -36,7 +32,7 @@ export default function ShoppingDetailPage() {
         <div className="container mx-auto px-4 py-8">
           <Skeleton className="h-8 w-32 mb-8 bg-muted" />
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <Skeleton className="aspect-video bg-muted" />
+            <Skeleton className="aspect-video bg-muted rounded-xl" />
             <div className="space-y-4">
               <Skeleton className="h-10 w-3/4 bg-muted" />
               <Skeleton className="h-6 w-1/2 bg-muted" />
@@ -65,7 +61,7 @@ export default function ShoppingDetailPage() {
 
   return (
     <MainLayout>
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-10">
         <Button variant="ghost" asChild className="mb-8">
           <Link to="/shopping">
             <ArrowLeft className="mr-2 h-4 w-4" />
@@ -73,8 +69,9 @@ export default function ShoppingDetailPage() {
           </Link>
         </Button>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div className="aspect-video bg-muted rounded-lg overflow-hidden">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+          {/* Image */}
+          <div className="aspect-video bg-muted rounded-xl overflow-hidden shadow-md">
             {item.image_url && (
               <img
                 src={item.image_url}
@@ -84,7 +81,8 @@ export default function ShoppingDetailPage() {
             )}
           </div>
 
-          <div className="space-y-6">
+          {/* Content */}
+          <div className="space-y-6 max-w-xl">
             <div>
               <h1 className="text-4xl font-bold mb-2">{item.name}</h1>
               <p className="text-xl text-primary font-medium">{item.category}</p>
@@ -102,26 +100,23 @@ export default function ShoppingDetailPage() {
             <div className="space-y-4">
               {item.timings && (
                 <Card>
-                  <CardContent className="p-6">
-                    <div className="flex items-start space-x-2">
-                      <Clock className="h-5 w-5 text-primary mt-1" />
-                      <div>
-                        <p className="text-sm text-muted-foreground mb-1">Timings</p>
-                        <p className="font-semibold">{item.timings}</p>
-                      </div>
+                  <CardContent className="p-6 flex items-start gap-2">
+                    <Clock className="h-5 w-5 text-primary mt-1" />
+                    <div>
+                      <p className="text-sm text-muted-foreground">Timings</p>
+                      <p className="font-semibold">{item.timings}</p>
                     </div>
                   </CardContent>
                 </Card>
               )}
+
               {item.location && (
                 <Card>
-                  <CardContent className="p-6">
-                    <div className="flex items-start space-x-2">
-                      <MapPin className="h-5 w-5 text-primary mt-1" />
-                      <div>
-                        <p className="text-sm text-muted-foreground mb-1">Location</p>
-                        <p className="font-semibold">{item.location}</p>
-                      </div>
+                  <CardContent className="p-6 flex items-start gap-2">
+                    <MapPin className="h-5 w-5 text-primary mt-1" />
+                    <div>
+                      <p className="text-sm text-muted-foreground">Location</p>
+                      <p className="font-semibold">{item.location}</p>
                     </div>
                   </CardContent>
                 </Card>

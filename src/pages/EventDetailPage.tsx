@@ -19,15 +19,11 @@ export default function EventDetailPage() {
   useEffect(() => {
     if (id) {
       getEventById(id)
-        .then((data) => {
-          setEvent(data);
-        })
-        .catch(() => {
-          setError('We could not load this event right now. Please try again shortly.');
-        })
-        .finally(() => {
-          setLoading(false);
-        });
+        .then(setEvent)
+        .catch(() =>
+          setError('We could not load this event right now. Please try again shortly.')
+        )
+        .finally(() => setLoading(false));
     }
   }, [id]);
 
@@ -37,7 +33,7 @@ export default function EventDetailPage() {
         <div className="container mx-auto px-4 py-8">
           <Skeleton className="h-8 w-32 mb-8 bg-muted" />
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <Skeleton className="aspect-video bg-muted" />
+            <Skeleton className="aspect-video bg-muted rounded-xl" />
             <div className="space-y-4">
               <Skeleton className="h-10 w-3/4 bg-muted" />
               <Skeleton className="h-6 w-1/2 bg-muted" />
@@ -66,7 +62,7 @@ export default function EventDetailPage() {
 
   return (
     <MainLayout>
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-10">
         <Button variant="ghost" asChild className="mb-8">
           <Link to="/events">
             <ArrowLeft className="mr-2 h-4 w-4" />
@@ -74,8 +70,9 @@ export default function EventDetailPage() {
           </Link>
         </Button>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div className="aspect-video bg-muted rounded-lg overflow-hidden">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+          {/* Image */}
+          <div className="aspect-video bg-muted rounded-xl overflow-hidden shadow-md">
             {event.image_url && (
               <img
                 src={event.image_url}
@@ -85,7 +82,8 @@ export default function EventDetailPage() {
             )}
           </div>
 
-          <div className="space-y-6">
+          {/* Content */}
+          <div className="space-y-6 max-w-xl">
             <div>
               <h1 className="text-4xl font-bold mb-2">{event.name}</h1>
               <p className="text-xl text-primary font-medium">{event.category}</p>
@@ -102,25 +100,24 @@ export default function EventDetailPage() {
 
             <div className="space-y-4">
               <Card>
-                <CardContent className="p-6">
-                  <div className="flex items-start space-x-2">
-                    <Calendar className="h-5 w-5 text-primary mt-1" />
-                    <div>
-                      <p className="text-sm text-muted-foreground mb-1">Event Date</p>
-                      <p className="font-semibold">{format(new Date(event.date), 'MMMM dd, yyyy')}</p>
-                    </div>
+                <CardContent className="p-6 flex items-start gap-2">
+                  <Calendar className="h-5 w-5 text-primary mt-1" />
+                  <div>
+                    <p className="text-sm text-muted-foreground">Event Date</p>
+                    <p className="font-semibold">
+                      {format(new Date(event.date), 'MMMM dd, yyyy')}
+                    </p>
                   </div>
                 </CardContent>
               </Card>
+
               {event.location && (
                 <Card>
-                  <CardContent className="p-6">
-                    <div className="flex items-start space-x-2">
-                      <MapPin className="h-5 w-5 text-primary mt-1" />
-                      <div>
-                        <p className="text-sm text-muted-foreground mb-1">Location</p>
-                        <p className="font-semibold">{event.location}</p>
-                      </div>
+                  <CardContent className="p-6 flex items-start gap-2">
+                    <MapPin className="h-5 w-5 text-primary mt-1" />
+                    <div>
+                      <p className="text-sm text-muted-foreground">Location</p>
+                      <p className="font-semibold">{event.location}</p>
                     </div>
                   </CardContent>
                 </Card>

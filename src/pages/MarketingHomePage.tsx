@@ -60,6 +60,7 @@ export default function MarketingHomePage() {
 
   return (
     <>
+      {/* HERO (UNCHANGED) */}
       <section
         className="relative flex min-h-screen items-center justify-center overflow-hidden"
         style={{
@@ -116,134 +117,153 @@ export default function MarketingHomePage() {
         </div>
       </section>
 
-      <div>
-  <section className="overflow-hidden bg-primary py-4 text-primary-foreground group">
-    <div className="flex whitespace-nowrap animate-marquee group-hover:[animation-play-state:paused]">
-      {[...slangPhrases, ...slangPhrases].map((phrase, index) => (
-        <span
-          key={`${phrase}-${index}`}
-          className="mx-8 text-lg font-medium"
+      {/* MARQUEE */}
+      <section className="overflow-hidden bg-primary py-4 text-primary-foreground group">
+        <div
+          className="flex whitespace-nowrap animate-marquee group-hover:[animation-play-state:paused]"
+          style={{ animationDuration: '12s' }}
         >
-          {phrase}
-        </span>
-      ))}
-    </div>
-  </section>
+          {[...slangPhrases, ...slangPhrases].map((phrase, index) => (
+            <span key={index} className="mx-10 text-base font-medium tracking-wide">
+              {phrase}
+            </span>
+          ))}
+        </div>
+      </section>
 
-        <section className="bg-accent/10 py-16">
-          <div className="container mx-auto px-4">
+      {/* CULTURE */}
+      <section className="bg-accent/10 py-20">
+        <div className="container mx-auto max-w-7xl px-4">
+          <div className="mb-12 text-center">
+            <h2 className="mb-4 text-4xl font-bold tracking-tight md:text-4xl">
+              Ganga-Jamuni Tehzeeb
+            </h2>
+            <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
+              Experience the unique blend of Hindu and Muslim cultures that defines Hyderabad's rich heritage.
+              From the majestic Charminar to the aromatic biryani, discover a city where traditions harmoniously coexist.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+            {[
+              {
+                title: 'Languages',
+                description: 'Telugu, Urdu, Hindi, and the unique Hyderabadi dialect blend seamlessly in daily conversations.',
+              },
+              {
+                title: 'Landmarks',
+                description: 'From Golconda Fort to Birla Mandir, witness architectural marvels spanning centuries.',
+              },
+              {
+                title: 'Cuisine',
+                description: "World-famous Hyderabadi biryani, haleem, and Irani chai represent the city's culinary heritage.",
+              },
+            ].map((item) => (
+              <Card key={item.title} className="transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                <CardContent className="p-6">
+                  <h3 className="mb-2 text-xl font-semibold">{item.title}</h3>
+                  <p className="text-muted-foreground">{item.description}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CATEGORIES */}
+      <section className="py-20">
+        <div className="container mx-auto max-w-7xl px-4">
+          <div className="mb-12 text-center">
+            <h2 className="mb-4 text-4xl font-bold tracking-tight md:text-4xl">
+              Explore Hyderabad
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              From iconic landmarks to hidden gems — plan, explore, and experience Hyderabad effortlessly.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {categories.map((category) => {
+              const Icon = category.icon;
+              return (
+                <Link key={category.path} to={category.path}>
+                  <Card className="h-full cursor-pointer transition-all duration-300 hover:scale-[1.03] hover:shadow-xl">
+                    <CardContent className="flex flex-col items-center space-y-4 p-6 text-center">
+                      <div className={`rounded-full bg-accent p-4 ${category.color}`}>
+                        <Icon className="h-8 w-8" />
+                      </div>
+                      <h3 className="text-xl font-semibold">{category.title}</h3>
+                      <p className="text-muted-foreground">{category.description}</p>
+                    </CardContent>
+                  </Card>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* FEATURED */}
+      {featuredError ? (
+        <section className="bg-accent/10 py-20">
+          <div className="container mx-auto max-w-7xl px-4">
+            <ErrorState title="Featured places are unavailable" description={featuredError} />
+          </div>
+        </section>
+      ) : featuredPlaces.length > 0 ? (
+        <section className="bg-accent/10 py-20">
+          <div className="container mx-auto max-w-7xl px-4">
             <div className="mb-12 text-center">
-              <h2 className="mb-4 text-3xl font-bold md:text-4xl">Ganga-Jamuni Tehzeeb</h2>
-              <p className="mx-auto max-w-3xl text-lg text-muted-foreground">
-                Experience the unique blend of Hindu and Muslim cultures that defines Hyderabad's rich heritage.
-                From the majestic Charminar to the aromatic biryani, discover a city where traditions harmoniously coexist.
+              <h2 className="mb-4 text-4xl font-bold tracking-tight md:text-4xl">
+                Featured Places
+              </h2>
+              <p className="text-lg text-muted-foreground">
+                Must-visit attractions in Hyderabad
               </p>
             </div>
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-              {[
-                {
-                  title: 'Languages',
-                  description: 'Telugu, Urdu, Hindi, and the unique Hyderabadi dialect blend seamlessly in daily conversations.',
-                },
-                {
-                  title: 'Landmarks',
-                  description: 'From Golconda Fort to Birla Mandir, witness architectural marvels spanning centuries.',
-                },
-                {
-                  title: 'Cuisine',
-                  description: "World-famous Hyderabadi biryani, haleem, and Irani chai represent the city's culinary heritage.",
-                },
-              ].map((item) => (
-                <Card key={item.title} className="transition-shadow hover:shadow-lg">
-                  <CardContent className="p-6">
-                    <h3 className="mb-2 text-xl font-semibold">{item.title}</h3>
-                    <p className="text-muted-foreground">{item.description}</p>
-                  </CardContent>
-                </Card>
+
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+              {featuredPlaces.map((place) => (
+                <Link key={place.id} to={`/places/${place.id}`}>
+                  <Card className="h-full cursor-pointer overflow-hidden transition-all duration-300 hover:scale-[1.03] hover:shadow-xl group">
+                    <div className="relative aspect-video overflow-hidden bg-muted">
+                      {place.image_url && (
+                        <img
+                          src={place.image_url}
+                          alt={place.name}
+                          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                      )}
+                    </div>
+
+                    <CardContent className="p-6">
+                      <h3 className="mb-2 text-xl font-semibold">{place.name}</h3>
+                      <p className="mb-2 text-sm text-muted-foreground">{place.category}</p>
+                      <p className="line-clamp-2 text-sm text-muted-foreground">{place.description}</p>
+
+                      {place.rating && (
+                        <div className="mt-4 flex items-center gap-1 text-primary">
+                          <Star className="h-4 w-4 fill-primary" />
+                          <span className="font-semibold">{place.rating}</span>
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                </Link>
               ))}
             </div>
-          </div>
-        </section>
 
-        <section className="py-16">
-          <div className="container mx-auto px-4">
-            <div className="mb-12 text-center">
-              <h2 className="mb-4 text-3xl font-bold md:text-4xl">Explore Hyderabad</h2>
-              <p className="text-lg text-muted-foreground">From iconic landmarks to hidden gems — plan, explore, and experience Hyderabad effortlessly.</p>
-            </div>
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {categories.map((category) => {
-                const Icon = category.icon;
-                return (
-                  <Link key={category.path} to={category.path}>
-                    <Card className="h-full cursor-pointer transition-all hover:scale-105 hover:shadow-lg">
-                      <CardContent className="flex flex-col items-center space-y-4 p-6 text-center">
-                        <div className={`rounded-full bg-accent p-4 ${category.color}`}>
-                          <Icon className="h-8 w-8" />
-                        </div>
-                        <h3 className="text-xl font-semibold">{category.title}</h3>
-                        <p className="text-muted-foreground">{category.description}</p>
-                      </CardContent>
-                    </Card>
-                  </Link>
-                );
-              })}
+            <div className="mt-10 text-center">
+              <Button size="lg" asChild>
+                <Link to="/places">
+                  View All Places <ArrowRight className="ml-2 h-5 w-5" />
+                </Link>
+              </Button>
             </div>
           </div>
         </section>
+      ) : null}
 
-        {featuredError ? (
-          <section className="bg-accent/10 py-16">
-            <div className="container mx-auto px-4">
-              <ErrorState title="Featured places are unavailable" description={featuredError} />
-            </div>
-          </section>
-        ) : featuredPlaces.length > 0 ? (
-          <section className="bg-accent/10 py-16">
-            <div className="container mx-auto px-4">
-              <div className="mb-12 text-center">
-                <h2 className="mb-4 text-3xl font-bold md:text-4xl">Featured Places</h2>
-                <p className="text-lg text-muted-foreground">Must-visit attractions in Hyderabad</p>
-              </div>
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-                {featuredPlaces.map((place) => (
-                  <Link key={place.id} to={`/places/${place.id}`}>
-                    <Card className="h-full cursor-pointer overflow-hidden transition-all hover:scale-105 hover:shadow-lg">
-                      <div className="relative aspect-video overflow-hidden bg-muted">
-                        {place.image_url && (
-                          <img
-                            src={place.image_url}
-                            alt={place.name}
-                            className="h-full w-full object-cover"
-                          />
-                        )}
-                      </div>
-                      <CardContent className="p-6">
-                        <h3 className="mb-2 text-xl font-semibold">{place.name}</h3>
-                        <p className="mb-2 text-sm text-muted-foreground">{place.category}</p>
-                        <p className="line-clamp-2 text-sm text-muted-foreground">{place.description}</p>
-                        {place.rating && (
-                          <div className="mt-4 flex items-center gap-1 text-primary">
-                            <Star className="h-4 w-4 fill-primary" />
-                            <span className="font-semibold">{place.rating}</span>
-                          </div>
-                        )}
-                      </CardContent>
-                    </Card>
-                  </Link>
-                ))}
-              </div>
-              <div className="mt-8 text-center">
-                <Button size="lg" asChild>
-                  <Link to="/places">
-                    View All Places <ArrowRight className="ml-2 h-5 w-5" />
-                  </Link>
-                </Button>
-              </div>
-            </div>
-          </section>
-        ) : null}
-      </div>
       <SiteFooter />
     </>
   );
