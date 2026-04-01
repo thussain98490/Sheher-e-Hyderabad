@@ -49,13 +49,13 @@ export default function MarketingHomePage() {
   ];
 
   const slangPhrases = [
-    'Hau - Yes',
-    'Nakko - No',
-    'Baigan - Nonsense',
-    "Kya Scene Hai - What's up",
-    'Bindaas - Carefree',
-    'Mast - Great',
-    'Ek Dum - Totally',
+    'Hau – Say yes like a Hyderabadi ',
+    'Nakko – The classic way to say no ',
+    'Baigan – When something makes no sense ',
+    'Kya scene hai – What’s up? ',
+    'Bindaas – Stay carefree ',
+    'Mast – When it’s really good ',
+    'Ek dum – Absolutely! ',
   ];
 
   return (
@@ -117,15 +117,18 @@ export default function MarketingHomePage() {
       </section>
 
       <div>
-        <section className="overflow-hidden bg-primary py-4 text-primary-foreground">
-          <div className="flex whitespace-nowrap animate-marquee">
-            {[...slangPhrases, ...slangPhrases].map((phrase, index) => (
-              <span key={`${phrase}-${index}`} className="mx-8 text-lg font-medium">
-                {phrase}
-              </span>
-            ))}
-          </div>
-        </section>
+  <section className="overflow-hidden bg-primary py-4 text-primary-foreground group">
+    <div className="flex whitespace-nowrap animate-marquee group-hover:[animation-play-state:paused]">
+      {[...slangPhrases, ...slangPhrases].map((phrase, index) => (
+        <span
+          key={`${phrase}-${index}`}
+          className="mx-8 text-lg font-medium"
+        >
+          {phrase}
+        </span>
+      ))}
+    </div>
+  </section>
 
         <section className="bg-accent/10 py-16">
           <div className="container mx-auto px-4">
