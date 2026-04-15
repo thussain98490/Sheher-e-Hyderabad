@@ -53,12 +53,24 @@ export default function Header() {
         ? 'text-primary font-semibold'
         : 'text-muted-foreground hover:text-primary'
     } 
-    after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full`;
+    after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:bg-primary after:transition-all after:duration-300 hover:after:w-full ${
+      isActive(path) ? 'after:w-full' : 'after:w-0'
+    }`;
 
-  const authButtonClass =
-    isHomePage && !scrolled
+  const actionButtonClass = (path: string) => {
+    if (isActive(path)) {
+      return 'border-primary bg-primary text-primary-foreground shadow-md transition-all duration-300 hover:bg-primary/90 hover:text-primary-foreground hover:scale-105';
+    }
+
+    return isHomePage && !scrolled
       ? 'border-white/30 bg-white/10 text-white hover:bg-white/20 hover:text-white transition-all duration-300 hover:scale-105'
       : 'transition-all duration-300 hover:scale-105';
+  };
+
+  const mobileActionClass = (path: string) =>
+    isActive(path)
+      ? 'w-full border-primary bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground'
+      : 'w-full';
 
   const mobileTriggerClass =
     isHomePage && !scrolled
@@ -118,16 +130,16 @@ export default function Header() {
             {user ? (
               <>
                 {profile?.role === 'admin' && (
-                  <Button variant="outline" className={authButtonClass} asChild>
+                  <Button variant="outline" className={actionButtonClass('/admin')} asChild>
                     <Link to="/admin">Admin</Link>
                   </Button>
                 )}
 
-                <Button variant="outline" className={authButtonClass} asChild>
+                <Button variant="outline" className={actionButtonClass('/planner')} asChild>
                   <Link to="/planner">Plan Trip</Link>
                 </Button>
 
-                <Button variant="outline" className={authButtonClass} asChild>
+                <Button variant="outline" className={actionButtonClass('/dashboard')} asChild>
                   <Link to="/dashboard">Dashboard</Link>
                 </Button>
 
@@ -141,14 +153,14 @@ export default function Header() {
               </>
             ) : (
               <>
-                <Button variant="outline" className={authButtonClass} asChild>
+                <Button variant="outline" className={actionButtonClass('/login')} asChild>
                   <Link to="/login">Login</Link>
                 </Button>
 
                 <Button
                   variant="default"
                   asChild
-                  className="transition-all duration-300 hover:scale-105"
+                  className={actionButtonClass('/register')}
                 >
                   <Link to="/register">Register</Link>
                 </Button>
@@ -194,7 +206,7 @@ export default function Header() {
                       {profile?.role === 'admin' && (
                         <Button
                           variant="outline"
-                          className="w-full"
+                          className={mobileActionClass('/admin')}
                           asChild
                           onClick={() => setOpen(false)}
                         >
@@ -204,7 +216,7 @@ export default function Header() {
 
                       <Button
                         variant="outline"
-                        className="w-full"
+                        className={mobileActionClass('/planner')}
                         asChild
                         onClick={() => setOpen(false)}
                       >
@@ -213,7 +225,7 @@ export default function Header() {
 
                       <Button
                         variant="outline"
-                        className="w-full"
+                        className={mobileActionClass('/dashboard')}
                         asChild
                         onClick={() => setOpen(false)}
                       >
@@ -241,7 +253,7 @@ export default function Header() {
 
                       <Button
                         variant="default"
-                        className="w-full"
+                        className={mobileActionClass('/register')}
                         asChild
                         onClick={() => setOpen(false)}
                       >

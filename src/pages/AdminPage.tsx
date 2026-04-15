@@ -40,14 +40,18 @@ import {
   getDashboardStats,
   getAllProfilesPaginated,
   updateUserRole,
+  deleteContactMessage,
+  deleteUserAccount,
 } from '@/db/api';
 import { supabase } from '@/db/supabase';
+import { useAuth } from '@/contexts/AuthContext';
 import type { Place, FoodItem, Profile, Package, ContactMessage, Shopping, Entertainment, Event } from '@/types';
 import { toast } from 'sonner';
 import { Trash2, Plus, MapPin, Utensils, Users, BarChart, Briefcase, Mail, Pencil } from 'lucide-react';
 import ErrorState from '@/components/common/ErrorState';
 
 export default function AdminPage() {
+  const { user } = useAuth();
   const PAGE_SIZE = 8;
   type AdminTab = 'places' | 'food' | 'shopping' | 'entertainment' | 'events' | 'packages' | 'messages' | 'users';
   const [places, setPlaces] = useState<Place[]>([]);
@@ -392,6 +396,33 @@ export default function AdminPage() {
       toast.success('Message status updated successfully');
     } catch (error) {
       toast.error('Failed to update message status');
+    }
+  };
+
+  const handleDeleteContactMessage = async (messageId: string) => {
+    try {
+      await deleteContactMessage(messageId);
+      await Promise.all([loadMessages(), loadNewMessagesCount()]);
+      toast.success('Message deleted successfully');
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Failed to delete message';
+      toast.error('Failed to delete message', { description: message });
+    }
+  };
+
+  const handleDeleteUser = async (userId: string) => {
+    if (user?.id === userId) {
+      toast.error('You cannot delete your own admin account while logged in.');
+      return;
+    }
+
+    try {
+      await deleteUserAccount(userId);
+      await loadUsers();
+      toast.success('User deleted successfully');
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Failed to delete user';
+      toast.error('Failed to delete user', { description: message });
     }
   };
 
@@ -906,18 +937,29 @@ export default function AdminPage() {
                         <TableCell>{profile.email}</TableCell>
                         <TableCell className="capitalize">{profile.role}</TableCell>
                         <TableCell>
-                          <Select
-                            value={profile.role}
-                            onValueChange={(value: string) => handleUpdateUserRole(profile.id, value as 'user' | 'admin')}
-                          >
-                            <SelectTrigger className="w-32">
-                              <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="user">User</SelectItem>
-                              <SelectItem value="admin">Admin</SelectItem>
-                            </SelectContent>
-                          </Select>
+                          <div className="flex items-center gap-2">
+                            <Select
+                              value={profile.role}
+                              onValueChange={(value: string) => handleUpdateUserRole(profile.id, value as 'user' | 'admin')}
+                            >
+                              <SelectTrigger className="w-32">
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="user">User</SelectItem>
+                                <SelectItem value="admin">Admin</SelectItem>
+                              </SelectContent>
+                            </Select>
+                            <Button
+                              variant="destructive"
+                              size="icon"
+                              disabled={profile.id === user?.id}
+                              title={profile.id === user?.id ? 'You cannot delete your own account' : 'Delete user'}
+                              onClick={() => handleDeleteUser(profile.id)}
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </div>
                         </TableCell>
                       </TableRow>
                     ))}
@@ -1056,18 +1098,28 @@ export default function AdminPage() {
                         <TableCell className="max-w-sm truncate">{message.message}</TableCell>
                         <TableCell className="capitalize">{message.status}</TableCell>
                         <TableCell>
-                          <Select
-                            value={message.status}
-                            onValueChange={(value: string) => handleUpdateContactStatus(message.id, value as ContactMessage['status'])}
-                          >
-                            <SelectTrigger className="w-36">
-                              <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="new">New</SelectItem>
-                              <SelectItem value="reviewed">Reviewed</SelectItem>
-                            </SelectContent>
-                          </Select>
+                          <div className="flex items-center gap-2">
+                            <Select
+                              value={message.status}
+                              onValueChange={(value: string) => handleUpdateContactStatus(message.id, value as ContactMessage['status'])}
+                            >
+                              <SelectTrigger className="w-36">
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="new">New</SelectItem>
+                                <SelectItem value="reviewed">Reviewed</SelectItem>
+                              </SelectContent>
+                            </Select>
+                            <Button
+                              variant="destructive"
+                              size="icon"
+                              title="Delete message"
+                              onClick={() => handleDeleteContactMessage(message.id)}
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </div>
                         </TableCell>
                       </TableRow>
                     ))}

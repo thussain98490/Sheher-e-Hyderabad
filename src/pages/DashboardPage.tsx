@@ -6,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
 import { getSavedPlans, deleteSavedPlan, updateProfile } from '@/db/api';
-import type { SavedPlan } from '@/types';
+import type { SavedPlan, UserType } from '@/types';
 import { toast } from 'sonner';
 import { Trash2, Calendar, Heart } from 'lucide-react';
 import { Label } from '@/components/ui/label';
@@ -20,7 +20,7 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [warning, setWarning] = useState<string | null>(null);
   const [name, setName] = useState('');
-  const [userType, setUserType] = useState<'tourist' | 'local'>('tourist');
+  const [userType, setUserType] = useState<UserType>('tourist');
 
   const getDashboardErrorMessage = (error: unknown) => {
     const message = error instanceof Error ? error.message : 'Unknown error';
@@ -155,25 +155,78 @@ export default function DashboardPage() {
                   <Accordion type="single" collapsible className="w-full">
                     {savedPlans.map((plan, i) => (
                       <AccordionItem key={plan.id} value={plan.id} className="hover:bg-accent/20 transition">
-                        
-                        <div className="px-6 pt-6 pb-2 flex justify-between">
-                          <div>
-                            <p className="text-sm text-primary font-semibold">Plan {i + 1}</p>
-                            <h3 className="text-lg font-bold">{plan.plan_name}</h3>
+                        <div className="flex items-start justify-between gap-4 px-6 pt-6 pb-2">
+                          <div className="space-y-4">
+                            <div>
+                              <p className="text-sm text-primary font-semibold">Plan {i + 1}</p>
+                              <h3 className="text-lg font-bold">{plan.plan_name}</h3>
+                              <p className="text-sm text-muted-foreground">
+                                Created on {new Date(plan.created_at).toLocaleDateString()}
+                              </p>
+                            </div>
+
+                            <div className="grid gap-3 text-sm text-muted-foreground sm:grid-cols-2 lg:grid-cols-4">
+                              <div>
+                                <span className="font-semibold text-foreground">Days: </span>
+                                {plan.plan_data.days}
+                              </div>
+                              <div>
+                                <span className="font-semibold text-foreground">Budget: </span>
+                                {plan.plan_data.budget}
+                              </div>
+                              <div>
+                                <span className="font-semibold text-foreground">Type: </span>
+                                <span className="capitalize">{plan.plan_data.user_type}</span>
+                              </div>
+                              <div>
+                                <span className="font-semibold text-foreground">Interests: </span>
+                                {plan.plan_data.interests.join(', ') || 'Not selected'}
+                              </div>
+                            </div>
                           </div>
-                          <Button size="icon" variant="destructive" onClick={() => handleDeletePlan(plan.id)}>
+                          <Button
+                            size="icon"
+                            variant="destructive"
+                            onClick={(event) => {
+                              event.stopPropagation();
+                              void handleDeletePlan(plan.id);
+                            }}
+                          >
                             <Trash2 className="h-4 w-4" />
                           </Button>
                         </div>
 
-                        <AccordionTrigger className="px-6">
-                          View Details
+                        <AccordionTrigger className="px-6 font-semibold text-primary hover:no-underline">
+                          View full plan
                         </AccordionTrigger>
 
                         <AccordionContent className="px-6 pb-6">
-                          <p className="text-sm text-muted-foreground">
-                            {plan.plan_data.days} days • {plan.plan_data.budget}
-                          </p>
+                          <div className="space-y-5">
+                            {plan.plan_data.itinerary.map((dayPlan) => (
+                              <div key={dayPlan.day} className="border-l-2 border-primary pl-4">
+                                <p className="mb-3 font-semibold text-primary">Day {dayPlan.day}</p>
+                                <div className="space-y-3">
+                                  {dayPlan.activities.map((activity, activityIndex) => (
+                                    <div
+                                      key={`${dayPlan.day}-${activity.name}-${activityIndex}`}
+                                      className="rounded-lg bg-background p-3"
+                                    >
+                                      <p className="text-sm font-medium">
+                                        {activity.time} - {activity.name}
+                                      </p>
+                                      <p className="text-sm text-primary">{activity.type}</p>
+                                      {activity.location && (
+                                        <p className="text-sm text-muted-foreground">{activity.location}</p>
+                                      )}
+                                      {activity.description && (
+                                        <p className="mt-1 text-sm text-muted-foreground">{activity.description}</p>
+                                      )}
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
                         </AccordionContent>
 
                       </AccordionItem>
@@ -205,7 +258,7 @@ export default function DashboardPage() {
 
                 <div>
                   <Label>User Type</Label>
-                  <RadioGroup value={userType} onValueChange={(v) => setUserType(v as any)}>
+                  <RadioGroup value={userType} onValueChange={(v) => setUserType(v as UserType)}>
                     <div className="flex items-center space-x-2">
                       <RadioGroupItem value="tourist" />
                       <Label>Tourist</Label>

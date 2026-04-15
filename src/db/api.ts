@@ -157,6 +157,14 @@ export async function updateUserRole(userId: string, role: 'user' | 'admin') {
   return data as Profile | null;
 }
 
+export async function deleteUserAccount(userId: string) {
+  const { error } = await supabase.rpc('delete_app_user', {
+    target_user_id: userId,
+  });
+
+  if (error) throw normalizeSupabaseError(error, 'Unable to delete user account.');
+}
+
 // Places
 export async function getPlaces(category?: string) {
   let query = supabase
@@ -709,6 +717,15 @@ export async function updateContactMessageStatus(id: string, status: ContactMess
 
   if (error) throw normalizeSupabaseError(error, 'Unable to update contact message status.');
   return data as ContactMessage | null;
+}
+
+export async function deleteContactMessage(id: string) {
+  const { error } = await supabase
+    .from('contact_messages')
+    .delete()
+    .eq('id', id);
+
+  if (error) throw normalizeSupabaseError(error, 'Unable to delete contact message.');
 }
 
 // Saved Plans
