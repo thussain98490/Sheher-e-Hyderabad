@@ -4,11 +4,20 @@ export default function LoadingScreen({
   label?: string;
 }) {
   return (
-    <div className="flex min-h-screen items-center justify-center px-4">
-      <div className="flex flex-col items-center gap-4 text-center">
-        <div className="h-12 w-12 animate-spin rounded-full border-b-2 border-primary" />
-        <p className="text-sm text-muted-foreground">{label}</p>
-      </div>
+    <div className="flex min-h-screen flex-col items-center justify-center bg-background px-4">
+      
+      {/* Logo / Website Name */}
+      <h1 className="mb-6 text-2xl font-semibold tracking-wide text-primary">
+        Sheher-E-Hyderabad
+      </h1>
+
+      {/* Simple Loader */}
+      <div className="h-10 w-10 animate-spin rounded-full border-2 border-muted border-t-primary" />
+
+      {/* Loading Text */}
+      <p className="mt-4 text-sm text-muted-foreground">
+        {label}
+      </p>
     </div>
   );
 }
